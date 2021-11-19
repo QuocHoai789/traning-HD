@@ -9,7 +9,7 @@ Edit Post
         <div class="card">
             <div class="card-body">
                 
-                    <form method="POST" action="{{route('post.post.edit', ['id'=>$post->id])}}">
+                    <form method="POST" action="{{route('post.post.edit', ['id'=>$post->id])}}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label for="formGroupExampleInput">Parent Category</label>
@@ -28,6 +28,13 @@ Edit Post
                         @error('title_post')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
+                        <div class="form-group">
+                          <label for="exampleFormControlFile1">Image</label>
+                          <input type="file" name="image" class="form-control-file" accept=".jpg, .jpeg, .png" id="images" value="{{$post->images}}">
+                        </div>
+                        @error('image')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                         <div class="form-group">
                             <label for="formGroupExampleInput">Content Post</label>
                             <textarea name="content"class="ckeditor  @error('content') is-invalid @enderror  form-control " id="validationTextarea"  cols="30" rows="10">{{$post->content}}</textarea>

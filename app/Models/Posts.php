@@ -17,4 +17,8 @@ class Posts extends Model
     public function author(){
         return $this->belongsTo('App\Models\Admin', 'author_id');
     }
+    public function user(){
+        return $this->belongsToMany('App\Models\User', 'user_post', 'post_id', 'user_id');
+     }
+     
 }

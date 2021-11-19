@@ -26,7 +26,8 @@ class PostRequest extends FormRequest
         return [
             'parent'=>'required',
              'title_post'=>'required|min:6',
-              'content'=>'required|min:30'
+              'content'=>'required|min:30',
+              'description'=>'required',
         ];
     }
 }

@@ -10,6 +10,7 @@ use App\Models\CategoryPost;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\PostRequest;
+use Illuminate\Support\Facades\Storage;
 class PostController extends Controller
 {
     public function add_post()
@@ -19,16 +20,28 @@ class PostController extends Controller
     }
     public function add_new_post(PostRequest $request)
     {
-        
         $parent = [];
         $parent = $request->parent;
         $title = $request->title_post;
+        $description = $request->description;
+        $file = $request->file('image');
+        $name_file = $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
+        $filename = pathinfo($name_file, PATHINFO_FILENAME); 
+        $new_name_file = $filename.'_'.time().'.'.$extension;
         $content = $request->content;
         $author = Auth::guard('admin')->user()->id;
         $post = new Posts;
         $post->title = $title;
+        $post->description = $description;
         $post->content = $content;
         $post->author_id = $author;
+        
+        $path = $file->storeAs('posts', $new_name_file);
+        if($path){
+            $post->images = $new_name_file;
+        }
+        
         if($post->save()){
                 $post->category()->attach($parent);
             return redirect()->back();
@@ -53,15 +66,31 @@ class PostController extends Controller
         return view('admin.post.edit', compact('categories' ,'post', 'category'));
     }
     public function post_edit_post(PostRequest $request, $id){
-        $post = Posts::find($id);
+       
         $parent = [];
         $parent = $request->parent;
+
         $title = $request->title_post;
+        $description = $request->description;
+        $file = $request->file('image');
+        $name_file = $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
+        $filename = pathinfo($name_file, PATHINFO_FILENAME); 
+        $new_name_file = $filename.'_'.time().'.'.$extension;
+        
         $content = $request->content;
         $author = Auth::guard('admin')->user()->id;
+
+        $post = Posts::find($id);
         $post->title = $title;
+        $post->description = $description;
         $post->content = $content;
         $post->author_id = $author;
+        $path = $file->storeAs('posts', $new_name_file);
+        if($path){
+            $post->images = $new_name_file;
+        }
+        
         if($post->save()){
                 
             $post->category()->sync($parent);

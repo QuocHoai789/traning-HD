@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\AjaxController;
 use App\Models\Categories;
 use Illuminate\Support\Facades\Route;
 
@@ -28,5 +29,10 @@ Route::group(['namespace' => 'Admin', 'middleware'=>'admin_login'], function(){
     Route::get('/edit-post/{id}', [PostController::class , 'edit_post'] )->name('post.edit');
     Route::post('/edit-post/{id}', [PostController::class , 'post_edit_post'] )->name('post.post.edit');
     Route::get('/search-post', [PostController::class , 'search_post'] )->name('post.search');
+
+    //ajax admin-ajax AjaxController
+    Route::get('/ajax-enable/{id}', [AjaxController::class , 'ajax_enable'] )->name('ajax-enable');
+    Route::get('/ajax-quantily/{id}', [AjaxController::class , 'ajax_quantily'] )->name('ajax-quantily');
+
 
 });

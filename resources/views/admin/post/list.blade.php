@@ -37,6 +37,8 @@ List Post
                         <th scope="col">Title</th>
                         {{-- <th scope="col">Content</th> --}}
                         <th scope="col">Category</th>
+                        <th>Voucher Enabled</th>
+                        <th>Voucher Quantily</th>
                         <th scope="col">Author</th>
                         <th scope="col"></th>
                       </tr>
@@ -55,6 +57,14 @@ List Post
                               {{ $cat->name }}
                                 
                             @endforeach
+                            </td>
+                            <td>
+                              <div class="custom-control custom-switch">
+                                <input type="checkbox" name="vou_post_{{$post->id}}" data-id="{{$post->id}}" class="voucher_post" @if($post->voucher_enabled == 1)checked @endif data-toggle="toggle">
+                              </div>
+                            </td>
+                            <td class="mx-auto">
+                              <input type="number" class="voucher_quantily" name="quantily_vou{{$post->id}}" data-id="{{$post->id}}" value="{{$post->voucher_quantity}}">
                             </td>
                             <td>{{$post->author->name}}</td>
                             <td>

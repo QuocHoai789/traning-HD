@@ -5,3 +5,43 @@
 */
 // This file is intentionally blank
 // Use this file to add JavaScript to your project
+
+$(document).on('click', '.dropdown-menu', function (e) {
+    e.stopPropagation();
+  });
+  
+  // make it as accordion for smaller screens
+  if ($(window).width() < 992) {
+    $('.dropdown-menu a').click(function(e){
+      e.preventDefault();
+        if($(this).next('.submenu').length){
+          $(this).next('.submenu').toggle();
+        }
+        $('.dropdown').on('hide.bs.dropdown', function () {
+       $(this).find('.submenu').hide();
+    })
+    });
+  }
+  $(document).ready(function(){
+    $('.cre_vou_user').on('click', function(e){
+      
+      var id_post = $(this).data('post');
+      var quantity = parseInt($(this).data('quantity'));
+      if(quantity == 0){
+        
+        $('.notifi_cant_create').addClass('show');
+      }else{
+        $.ajax({
+          url:  'http://localhost:8080/demo_app/public/ajax-create-voucher/'+id_post,
+          type: 'GET',
+          
+         }).done(function(result){
+           $('#code_vou').text(result);
+           $('.notifi_can_create').addClass('show');
+          
+         });
+      }
+      
+    })
+    })
+  

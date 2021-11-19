@@ -9,7 +9,7 @@ Add Post
         <div class="card">
             <div class="card-body">
                 
-                    <form method="POST" action="{{route('post.addpost')}}">
+                    <form method="POST" action="{{route('post.addpost')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label for="formGroupExampleInput">Parent Category</label>
@@ -24,14 +24,28 @@ Add Post
                         
                         <div class="form-group">
                           <label for="formGroupExampleInput">Title Post</label>
-                          <input type="text" class="@error('title_post') is-invalid @enderror form-control" id="namecategory" name="title_post" placeholder="Title post">
+                          <input type="text" class="@error('title_post') is-invalid @enderror form-control" id="namecategory" name="title_post" placeholder="Title post" value="{{ old('title_post') }}">
                         </div>
                         @error('title_post')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                         <div class="form-group">
+                          <label for="exampleFormControlFile1">Image</label>
+                          <input type="file" name="image" class="form-control-file" accept=".jpg, .jpeg, .png" id="images">
+                        </div>
+                        @error('image')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                    <div class="form-group">
+                      <label for="formGroupExampleInput">Description Post</label>
+                      <textarea name="description" class="ckeditor  @error('description') is-invalid @enderror  form-control " id="validationTextarea"  cols="30" rows="10">{{old('description')}}</textarea>
+                    </div>
+                    @error('description')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                        <div class="form-group">
                             <label for="formGroupExampleInput">Content Post</label>
-                            <textarea name="content"class="ckeditor  @error('content') is-invalid @enderror  form-control " id="validationTextarea"  cols="30" rows="10"></textarea>
+                            <textarea name="content" class="ckeditor  @error('content') is-invalid @enderror  form-control " id="validationTextarea"  cols="30" rows="10">{{old('content')}}</textarea>
                           </div>
                           @error('content')
                           <div class="alert alert-danger">{{ $message }}</div>
