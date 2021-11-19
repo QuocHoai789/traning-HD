@@ -4,8 +4,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\UserController;
 use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\Frontend\CategoriesController;
-use App\Http\Controllers\Frontend\PostsController;
+use App\Http\Controllers\Frontend\CategoryController;
+use App\Http\Controllers\Frontend\PostController;
 use App\Http\Controllers\Frontend\AjaxController;
 /*
 |--------------------------------------------------------------------------
@@ -23,9 +23,9 @@ Route::post('/login',[UserController::class , 'postLogin'])->name('post_login');
 Route::get('/logout', [UserController::class , 'logout'])->name('logout.user');
 Route::group(['namespace' => 'Frontend'], function(){
     Route::get('/home', [HomeController::class , 'index'] )->name('home');
-    Route::get('/category/{id}', [CategoriesController::class , 'show'] )->name('category.show');
-    Route::get('/post/{id}', [PostsController::class , 'view'] )->name('post.view')->middleware('viewpost');
-    Route::get('/ajax-create-voucher/{id}', [AjaxController::class , 'create_voucher'] )->name('voucher.create');
+    Route::get('/category/{id}', [CategoryController::class , 'show'] )->name('category.show');
+    Route::get('/post/{id}', [PostController::class , 'view'] )->name('post.view')->middleware('viewpost');
+    Route::get('/ajax-create-voucher/{id}', [AjaxController::class , 'createVoucher'] )->name('voucher.create');
     
     
 });

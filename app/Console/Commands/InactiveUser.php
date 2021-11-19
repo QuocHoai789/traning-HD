@@ -49,7 +49,7 @@ class InactiveUser extends Command
         ];
         foreach($inactive_users as $user){
        
-        Mail::send('frontend.email_send', $data, function ($message) use ($user) {
+        Mail::send('frontend.email-send', $data, function ($message) use ($user) {
             $message->from(ENV('MAIL_USERNAME'), 'Demo app');
             $message->to($user->email, 'Đề tài:' );
             $message->subject('Tài khoản người dùng demo app');

@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
-use App\Models\Categories;
+use App\Models\Category;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
         //
         Paginator::useBootstrap();
         view()->composer('*', function ($view) {
-            $categories_frontend = Categories::whereNull('parent_id')->with('children')->get();
+            $categories_frontend = Category::whereNull('parent_id')->with('children')->get();
              $view->with('categories_frontend',$categories_frontend);
         });
     }

@@ -18,7 +18,9 @@ List Category
                   </form>
             </div>
         </div>
-        <div class="col-6"></div>
+        <div class="col-6">
+          <a href="{{route('category.add')}}" class="btn btn-primary float-right">Add new category</a>
+        </div>
     </div>
     <div class="row">
         

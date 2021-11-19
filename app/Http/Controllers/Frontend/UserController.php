@@ -24,14 +24,14 @@ class UserController extends Controller
             $user = User::find( Auth::user()->id);
             $user->last_login = Carbon::now();
             $user->save();
-            return redirect()->route('home');
+            return redirect(route('home'));
         }else{
             return redirect()->back();
         }
     }
     public function logout(){
         Auth::logout();
-        return redirect()->route('home');
+        return redirect(route('home'));
     }
 
     

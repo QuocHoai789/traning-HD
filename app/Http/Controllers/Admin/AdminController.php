@@ -21,19 +21,19 @@ class AdminController extends Controller
         $result = ['email'=>$email, 'password'=>$pass];
         //dd($result);
         if(Auth::guard('admin')->attempt($result)){
-            return redirect()->route('home_admin');
+            return redirect(route('home_admin'));
         }else{
             return redirect()->back();
         }
     }
     public function logout(){
         Auth::guard('admin')->logout();
-        return redirect('admin/admin-login');
+        return redirect(route('login_admin'));
     }
 
-    public function site_admin(){
+    public function siteAdmin(){
         if(Gate::allows('is-admin')){
-            return view('admin.site_admin');
+            return view('admin.site-admin');
         }else{
             abort('403', 'Bạn không được quyền truy cập');
         }

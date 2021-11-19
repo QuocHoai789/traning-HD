@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Posts;
-use App\Models\Categories;
+use App\Models\Post;
+use App\Models\Category;
 use App\Models\CategoryPost;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -13,12 +13,12 @@ use App\Http\Requests\PostRequest;
 use Illuminate\Support\Facades\Storage;
 class PostController extends Controller
 {
-    public function add_post()
+    public function addPost()
     {
-         $categories = Categories::get();
+         $categories = Category::get();
         return view('admin.post.add', compact('categories'));
     }
-    public function add_new_post(PostRequest $request)
+    public function addNewPost(PostRequest $request)
     {
         $parent = [];
         $parent = $request->parent;
@@ -31,7 +31,7 @@ class PostController extends Controller
         $new_name_file = $filename.'_'.time().'.'.$extension;
         $content = $request->content;
         $author = Auth::guard('admin')->user()->id;
-        $post = new Posts;
+        $post = new Post;
         $post->title = $title;
         $post->description = $description;
         $post->content = $content;
@@ -50,13 +50,13 @@ class PostController extends Controller
         
         // return redirect(route('category.list'));
     }
-    public function list_post(){
-        $list_post = Posts::paginate(5);
+    public function listPost(){
+        $list_post = Post::paginate(5);
         return view('admin.post.list', compact('list_post'));
     }
-    public function edit_post($id){
-        $categories = Categories::get();
-        $post = Posts::find($id);
+    public function editPost($id){
+        $categories = Category::get();
+        $post = Post::find($id);
         $category = [];
         foreach($post->category as $po){
             $category[] = $po->pivot->category_id;
@@ -65,7 +65,7 @@ class PostController extends Controller
         
         return view('admin.post.edit', compact('categories' ,'post', 'category'));
     }
-    public function post_edit_post(PostRequest $request, $id){
+    public function postEditPost(PostRequest $request, $id){
        
         $parent = [];
         $parent = $request->parent;
@@ -73,22 +73,22 @@ class PostController extends Controller
         $title = $request->title_post;
         $description = $request->description;
         $file = $request->file('image');
-        $name_file = $file->getClientOriginalName();
+        $nameFile = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
-        $filename = pathinfo($name_file, PATHINFO_FILENAME); 
-        $new_name_file = $filename.'_'.time().'.'.$extension;
+        $fileName = pathinfo($nameFile, PATHINFO_FILENAME); 
+        $newNameFile = $fileName.'_'.time().'.'.$extension;
         
         $content = $request->content;
         $author = Auth::guard('admin')->user()->id;
 
-        $post = Posts::find($id);
+        $post = Post::find($id);
         $post->title = $title;
         $post->description = $description;
         $post->content = $content;
         $post->author_id = $author;
-        $path = $file->storeAs('posts', $new_name_file);
+        $path = $file->storeAs('posts', $newNameFile);
         if($path){
-            $post->images = $new_name_file;
+            $post->images = $newNameFile;
         }
         
         if($post->save()){
@@ -99,9 +99,9 @@ class PostController extends Controller
         }
         return redirect()->back();
     }
-    public function search_post(Request $request){
+    public function searchPost(Request $request){
              $search = $request->search_post;
-            $result = Posts::where('title', 'LIKE', '%' . $search . '%')->get();
+            $result = Post::where('title', 'LIKE', '%' . $search . '%')->get();
             return view('admin.post.search', compact('result'));
     }
 }

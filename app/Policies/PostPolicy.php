@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\Posts;
+use App\Models\Post;
 use App\Models\Admin;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -25,10 +25,10 @@ class PostPolicy
      * Determine whether the Admin can view the model.
      *
      * @param  \App\Models\Admin  $Admin
-     * @param  \App\Models\Posts  $posts
+     * @param  \App\Models\Post  $posts
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(Admin $Admin, Posts $posts)
+    public function view(Admin $Admin, Post $posts)
     {
         //
     }
@@ -48,10 +48,10 @@ class PostPolicy
      * Determine whether the Admin can update the model.
      *
      * @param  \App\Models\Admin  $Admin
-     * @param  \App\Models\Posts  $posts
+     * @param  \App\Models\Post  $posts
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(Admin $admin, Posts $posts)
+    public function update(Admin $admin, Post $posts)
     {
         return $admin->id === $posts->author_id;
     }
@@ -60,10 +60,10 @@ class PostPolicy
      * Determine whether the Admin can delete the model.
      *
      * @param  \App\Models\Admin  $Admin
-     * @param  \App\Models\Posts  $posts
+     * @param  \App\Models\Post  $posts
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(Admin $admin, Posts $posts)
+    public function delete(Admin $admin, Post $posts)
     {
         return $admin->id === $posts->author_id;
     }
@@ -72,10 +72,10 @@ class PostPolicy
      * Determine whether the Admin can restore the model.
      *
      * @param  \App\Models\Admin  $Admin
-     * @param  \App\Models\Posts  $posts
+     * @param  \App\Models\Post  $posts
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(Admin $admin, Posts $posts)
+    public function restore(Admin $admin, Post $posts)
     {
         //
     }
@@ -84,10 +84,10 @@ class PostPolicy
      * Determine whether the Admin can permanently delete the model.
      *
      * @param  \App\Models\Admin  $Admin
-     * @param  \App\Models\Posts  $posts
+     * @param  \App\Models\Post  $posts
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(Admin $admin, Posts $posts)
+    public function forceDelete(Admin $admin, Post $posts)
     {
         //
     }

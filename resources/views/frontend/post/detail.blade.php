@@ -327,22 +327,18 @@ Template sidebar
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container pb50">
     <div class="row">
-        <div class="col-12">
-            <div class="alert alert-danger notifi_cant_create alert-dismissible fade " role="alert">
+        <div class="col-12" style="padding-top:20px">
+            <div  class="alert alert-danger notifi_cant_create alert-dismissible fade " style="display:none;" role="alert">
                 <span>There is no more available voucher</span>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+                
               </div>
-              <div class="alert alert-success alert-dismissible fade notifi_can_create " role="alert">
+              <div class="alert alert-success alert-dismissible fade notifi_can_create " style="display:none;" role="alert">
                   <span id="code_vou"></span>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+                {{--  --}}
               </div>
         </div>
         <div class="col-md-12 mb30">
-            @if($post->voucher_enabled == 1 )
+            @if($post->voucher_enabled != 0 )
             <button type="button" class="btn btn-primary cre_vou_user" data-quantity="{{$post->voucher_quantity}}" data-post="{{$post->id}}" >Get your code voucher</button>
             @endif
         </div>

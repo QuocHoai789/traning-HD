@@ -20,8 +20,9 @@ List Post
                   </form>
             </div>
         </div>
-        <div class="col-6">
-
+        <div class="col-6 ">
+          
+          <a  href="{{route('post.add')}}" class="btn btn-primary float-right">Add new post</a>
         </div>
     </div>
     <div class="row">

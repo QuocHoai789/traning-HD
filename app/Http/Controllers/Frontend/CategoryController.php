@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Categories;
-use App\Models\Posts;
-class CategoriesController extends Controller
+use App\Models\Category;
+use App\Models\Post;
+class CategoryController extends Controller
 {
     public function show($id){
-        $category = Categories::with('children')->where('id',$id)->first();
+        $category = Category::with('children')->where('id',$id)->first();
         //dd($category);
         // if(count($category->children)){
             

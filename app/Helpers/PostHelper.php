@@ -1,10 +1,10 @@
 <?php
 
-use App\Models\Posts;
+use App\Models\Post;
  
 function getTitle($id){
     
-    $post = Posts::find($id);
+    $post = Post::find($id);
     return $post->title;
 
 }

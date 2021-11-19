@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kalnoy\Nestedset\NodeTrait;
-class Categories extends Model
+class Category extends Model
 {
     use HasFactory;
 
@@ -16,7 +16,7 @@ class Categories extends Model
         
     ];
     public function post(){
-        return $this->belongsToMany('App\Models\Posts', 'category_post', 'category_id', 'post_id');
+        return $this->belongsToMany('App\Models\Post', 'category_post', 'category_id', 'post_id');
     }
     
 }

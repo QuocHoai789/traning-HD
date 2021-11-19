@@ -22,6 +22,7 @@ $(document).on('click', '.dropdown-menu', function (e) {
     })
     });
   }
+
   $(document).ready(function(){
     $('.cre_vou_user').on('click', function(e){
       
@@ -30,6 +31,7 @@ $(document).on('click', '.dropdown-menu', function (e) {
       if(quantity == 0){
         
         $('.notifi_cant_create').addClass('show');
+        $('.notifi_cant_create').css({'display':'block'});
       }else{
         $.ajax({
           url:  'http://localhost:8080/demo_app/public/ajax-create-voucher/'+id_post,
@@ -38,6 +40,7 @@ $(document).on('click', '.dropdown-menu', function (e) {
          }).done(function(result){
            $('#code_vou').text(result);
            $('.notifi_can_create').addClass('show');
+           $('.notifi_can_create').css({'display':'block'});
           
          });
       }
