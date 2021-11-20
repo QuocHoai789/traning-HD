@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 class ViewPostMiddleware
 {
     /**
@@ -16,11 +17,10 @@ class ViewPostMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::check()){
+        if (Auth::check()) {
             return $next($request);
-        }else{
+        } else {
             return redirect()->route('login');
         }
-        
     }
 }

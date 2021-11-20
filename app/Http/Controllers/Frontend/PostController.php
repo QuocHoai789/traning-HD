@@ -11,16 +11,18 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use App\Models\Admin;
+
 class PostController extends Controller
 {
-    public function view($id, Request $request){
-        
-        
+    public function view($id, Request $request)
+    {
+
+
         $post = Post::find($id);
-        if($post){
+        if ($post) {
             $user_id = Auth::user()->id;
-            $view_post = 'user_view_'.$user_id.$id;
-            if(!$request->session()->has($view_post)){
+            $view_post = 'user_view_' . $user_id . $id;
+            if (!$request->session()->has($view_post)) {
 
                 //tăng lượt view
                 session([$view_post => '1']);
@@ -33,13 +35,10 @@ class PostController extends Controller
                 $userpost->post_id = $id;
                 $userpost->user_id = $user_id;
                 $userpost->save();
-                
             }
             return view('frontend.post.detail', compact('post'));
-        }
-        else{
+        } else {
             abort('404', 'Page not found');
         }
-        
     }
 }

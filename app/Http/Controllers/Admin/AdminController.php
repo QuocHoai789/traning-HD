@@ -7,34 +7,40 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\AdminLoginRequest;
+
 class AdminController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return view('admin.home');
     }
-    public function login(){
+    public function login()
+    {
         return view('admin.login');
     }
-    public function postLogin(AdminLoginRequest $req){
+    public function postLogin(AdminLoginRequest $req)
+    {
         $email = $req->Email;
         $pass = $req->Password;
-        $result = ['email'=>$email, 'password'=>$pass];
+        $result = ['email' => $email, 'password' => $pass];
         //dd($result);
-        if(Auth::guard('admin')->attempt($result)){
+        if (Auth::guard('admin')->attempt($result)) {
             return redirect(route('home_admin'));
-        }else{
+        } else {
             return redirect()->back();
         }
     }
-    public function logout(){
+    public function logout()
+    {
         Auth::guard('admin')->logout();
         return redirect(route('login_admin'));
     }
 
-    public function siteAdmin(){
-        if(Gate::allows('is-admin')){
+    public function siteAdmin()
+    {
+        if (Gate::allows('is-admin')) {
             return view('admin.site-admin');
-        }else{
+        } else {
             abort('403', 'Bạn không được quyền truy cập');
         }
     }

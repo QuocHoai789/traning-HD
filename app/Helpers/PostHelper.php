@@ -8,5 +8,3 @@ function getTitle($id){
     return $post->title;
 
 }
-
-?>
