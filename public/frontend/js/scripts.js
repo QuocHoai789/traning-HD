@@ -28,13 +28,9 @@ $(document).on('click', '.dropdown-menu', function (e) {
       
       var id_post = $(this).data('post');
       var quantity = parseInt($(this).data('quantity'));
-      if(quantity == 0){
-        
-        $('.notifi_cant_create').addClass('show');
-        $('.notifi_cant_create').css({'display':'block'});
-      }else{
+      
         $.ajax({
-          url:  'http://localhost:8080/demo_app/public/ajax-create-voucher/'+id_post,
+          url:  '/ajax-create-voucher/'+id_post,
           type: 'GET',
           
          }).done(function(result){
@@ -43,7 +39,7 @@ $(document).on('click', '.dropdown-menu', function (e) {
            $('.notifi_can_create').css({'display':'block'});
           
          });
-      }
+      
       
     })
     })

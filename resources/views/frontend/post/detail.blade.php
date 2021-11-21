@@ -328,10 +328,10 @@ Template sidebar
 <div class="container pb50">
     <div class="row">
         <div class="col-12" style="padding-top:20px">
-            <div  class="alert alert-danger notifi_cant_create alert-dismissible fade " style="display:none;" role="alert">
+            {{-- <div  class="alert alert-danger notifi_cant_create alert-dismissible fade " style="display:none;" role="alert">
                 <span>There is no more available voucher</span>
                 
-              </div>
+              </div> --}}
               <div class="alert alert-success alert-dismissible fade notifi_can_create " style="display:none;" role="alert">
                   <span id="code_vou"></span>
                 {{--  --}}

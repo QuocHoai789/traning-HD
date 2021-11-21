@@ -11,7 +11,7 @@ class Post extends Model
     protected $table = 'posts';
 
     public function category(){
-       return $this->belongsToMany('App\Models\Categories', 'category_post', 'post_id', 'category_id');
+       return $this->belongsToMany('App\Models\Category', 'category_post', 'post_id', 'category_id');
     }
 
     public function author(){

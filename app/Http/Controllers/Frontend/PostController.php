@@ -26,7 +26,7 @@ class PostController extends Controller
 
                 //tăng lượt view
                 session([$view_post => '1']);
-                $post->view += 1;
+                $post->increment('view');
                 $post->last_view = Carbon::now();
                 $post->save();
 
