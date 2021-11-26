@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('user:inactive')
-            ->daily();
+            ->everyMinute();
         
         $schedule->command('post:notread')
             ->daily();

@@ -18,10 +18,11 @@ class AjaxController extends Controller
     $voucher = Voucher::where('user_id', $user_id)->where('post_id', $post_id)->first();
 
     if ($voucher) {
-      echo 'You were have voucher for this post';
+      return 'You were have voucher for this post';
     } else {
 
       DB::beginTransaction();
+      $post = Post::where('id', $post_id)->lockForUpdate()->first();
       try {
 
         $code = 'KM' . $id . time();
@@ -31,20 +32,18 @@ class AjaxController extends Controller
         $voucher->user_id = $user_id;
         $voucher->save();
 
-        $post = Post::lockForUpdate()->find($post_id);
         $post->decrement('voucher_quantity', 1);
         $post->save();
 
         if ($post->voucher_quantity < 0) {
-          echo 'There is no voucher available';
-        } else {
-          DB::commit();
-          echo 'Your voucher code for this post is ' . $voucher->code;
+          return 'There is no voucher available';
         }
+        DB::commit();
+        return 'Your voucher code for this post is ' . $voucher->code;
       } catch (\Exception $e) {
 
         DB::rollBack();
-        echo 'There is no voucher available';
+        return 'There is no voucher available';
         throw new \Exception($e->getMessage());
       }
     }

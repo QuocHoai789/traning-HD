@@ -81,6 +81,23 @@
                   </li>
             </ul>
           </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-book"></i>
+              <p>
+                Manager User
+                {{-- <span class="right badge badge-danger">New</span> --}}
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('user.inactive')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>user inactive</p>
+                </a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

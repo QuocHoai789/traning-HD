@@ -1,10 +1,21 @@
 @extends('admin.main.master')
 @section('name_page')
-List Post
+List Inactive User
 @endsection
 @section('content')
 <div class="container-fluid">
     <div class="row" style="margin-bottom: 20px;">
+        @if(\Session::has('nofitication'))
+        <div class="col-12">
+            <div class="alert alert-success" role="alert">
+                {!! \Session::get('nofitication') !!}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+        </div>
+        @endif
+        
         <div class="col-5 ">
             <div class="search">
                 <form class="form" method="get" action="{{route('post.search')}}">
@@ -22,7 +33,7 @@ List Post
         </div>
         <div class="col-6 ">
           
-          <a  href="{{route('post.add')}}" class="btn btn-primary float-right">Add new post</a>
+          <a  href="{{route('user.send_mail_queue')}}" class="btn btn-primary float-right">Send mail </a>
         </div>
     </div>
     <div class="row">
@@ -35,24 +46,31 @@ List Post
                     <thead>
                       <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Title</th>
+                        
                         {{-- <th scope="col">Content</th> --}}
-                        <th scope="col">Category</th>
-                        <th>Voucher Enabled</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Status</th>
+                        {{-- <th>Voucher Enabled</th>
                         <th>Voucher Quantily</th>
                         <th scope="col">Author</th>
-                        <th scope="col"></th>
+                        <th scope="col"></th> --}}
                       </tr>
                     </thead>
                     <tbody>
-                      
-                          @foreach ($list_post as $post)
+                      @foreach ($inactiveUsers as $user)
+                          <tr>
+                              <th scope="row"></th>
+                              <td>{{$user->email}}</td>
+                              <td>
+                                  {{$user->status}}
+                              </td>
+                          </tr>
+                      @endforeach
+                          {{-- @foreach ($list_post as $post)
                           <tr>
                             <th scope="row">{{$post->id}}</th>
                             <td>{{$post->title}}</td>
-                            {{-- <td>
-                                   {{$post->content}}
-                            </td> --}}
+                           
                             <td>
                               @foreach ($post->category as $cat)
                               {{ $cat->name }}
@@ -69,24 +87,22 @@ List Post
                             </td>
                             <td>{{$post->author->name}}</td>
                             <td>
-                                {{-- @if(Auth::guard('admin')->user()->can('update', $post))
+                                @if(Auth::guard('admin')->user()->can('update', $post))
                                 <a type="button" href="{{route('post.edit', ['id'=> $post->id])}}" class="btn btn-primary" >Edit</a>
                                @endif
                                @if(Auth::guard('admin')->user()->can('delete', $post))
                                 <a type="button" class="btn btn-danger">Delete</a>
-                                @endif --}}
-                                <a type="button" href="{{route('post.edit', ['id'=> $post->id])}}" data-id="{{$post->id}}" class="edit_post btn btn-primary @if($post->edit_enable == 0) disabled @endif" >Edit</a>
-                                <a type="button" class="btn btn-danger">Delete</a>
+                                @endif
                             </td>    
                         </tr>  
-                          @endforeach
+                          @endforeach --}}
                         
                      
                       
                     </tbody>
                   </table>
             </div>
-            {{$list_post->links('pagination::bootstrap-4')}}
+            
             <div>
             </div>
     </div>

@@ -51,8 +51,8 @@ class NotReadPost extends Command
             }
             Mail::send('frontend.email-send-not-read-post', ['not_read_arr' => $not_read_arr], function ($message) use ($admin) {
                 $message->from(ENV('MAIL_USERNAME'), 'Demo app');
-                $message->to($admin->email, 'Bài viết:');
-                $message->subject('Danh sách bài viết chưa được đọc trong ngày');
+                $message->to($admin->email, 'Post:');
+                $message->subject('List of post that is unread today');
             });
         }
     }

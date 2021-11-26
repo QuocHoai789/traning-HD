@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
+use App\Models\OutgoingEmail;
+
 
 class InactiveUser extends Command
 {
@@ -45,15 +47,16 @@ class InactiveUser extends Command
         $inactive_users = User::where('last_login', '<', $time_limit)->get();
 
         $data = [
-            'mess' => ' Bạn đã không truy cập hệ thống trong vòng ngày qua',
+            'mess' => ' You are not login system in today',
 
         ];
         foreach ($inactive_users as $user) {
+            OutgoingEmail::firstOrCreate(['email' => $user->email]);
 
-            Mail::send('frontend.email-send', $data, function ($message) use ($user) {
+            Mail::send('frontend.email-send-daily', $data, function ($message) use ($user) {
                 $message->from(ENV('MAIL_USERNAME'), 'Demo app');
-                $message->to($user->email, 'Đề tài:');
-                $message->subject('Tài khoản người dùng demo app');
+                $message->to($user->email, 'Subject:');
+                $message->subject('User account');
             });
         }
     }

@@ -84,8 +84,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
       allowClear: true
     });
     
+    
 });
+
+// $(document).ready(function(){
+  
+//   $('.edit_post').on('click',function(){
+//     var id = $(this).data('id');
+//    
+//   })
+  
+// })
   </script>
+  
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
 </html>

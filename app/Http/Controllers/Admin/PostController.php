@@ -60,6 +60,9 @@ class PostController extends Controller
     {
         $categories = Category::get();
         $post = Post::find($id);
+
+        $post->edit_enable = 0;
+        $post->save();
         $category = [];
         foreach ($post->category as $po) {
             $category[] = $po->pivot->category_id;
@@ -69,38 +72,40 @@ class PostController extends Controller
     }
     public function postEditPost(PostRequest $request, $id)
     {
-
+        //dd($request->all());
         $parent = [];
         $parent = $request->parent;
-
         $title = $request->title_post;
         $description = $request->description;
-        $file = $request->file('image');
-        $nameFile = $file->getClientOriginalName();
-        $extension = $file->getClientOriginalExtension();
-        $fileName = pathinfo($nameFile, PATHINFO_FILENAME);
-        $newNameFile = $fileName . '_' . time() . '.' . $extension;
-
         $content = $request->content;
         $author = Auth::guard('admin')->user()->id;
 
         $post = Post::find($id);
+        if ($request->file('image')) {
+            $file = $request->file('image');
+            $nameFile = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+            $fileName = pathinfo($nameFile, PATHINFO_FILENAME);
+            $newNameFile = $fileName . '_' . time() . '.' . $extension;
+            $path = $file->storeAs('posts', $newNameFile);
+            if ($path) {
+                $post->images = $newNameFile;
+            }
+        }
         $post->title = $title;
         $post->description = $description;
         $post->content = $content;
         $post->author_id = $author;
-        $path = $file->storeAs('posts', $newNameFile);
-        if ($path) {
-            $post->images = $newNameFile;
-        }
+        $post->edit_enable = 1;
 
         if ($post->save()) {
 
             $post->category()->sync($parent);
 
-            return redirect()->back();
+            return redirect(route('post.list'));
+        } else {
+            return redirect(route('post.list'));
         }
-        return redirect()->back();
     }
     public function searchPost(Request $request)
     {

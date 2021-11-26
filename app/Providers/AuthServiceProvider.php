@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Providers;
+
 use App\Policies\PostPolicy;
 use App\Models\Post;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -28,10 +30,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('is-admin', function($user = null){
+        Gate::define('is-admin', function ($user = null) {
             $user = Auth::guard('admin')->user();
-            return $user->name == 'Admin' ;
+            return $user->name == 'Admin';
         });
+        Passport::routes();
         //
     }
 }

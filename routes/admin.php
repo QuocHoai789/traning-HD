@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\AjaxController;
 use App\Models\Categories;
+use App\Http\Controllers\Admin\SendMailController;
+use App\Http\Controllers\Admin\MemberController;
 use Illuminate\Support\Facades\Route;
 
 //admin
@@ -30,7 +32,12 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'admin_login'], function (
     Route::post('/edit-post/{id}', [PostController::class, 'postEditPost'])->name('post.post.edit');
     Route::get('/search-post', [PostController::class, 'searchPost'])->name('post.search');
 
+    //user
+    Route::get('/inactive-user', [MemberController::class, 'listIncativeUser'])->name('user.inactive');
+    Route::get('/send-mail-queue', [MemberController::class, 'sendMailQueue'])->name('user.send_mail_queue');
     //ajax admin-ajax AjaxController
     Route::get('/ajax-enable/{id}', [AjaxController::class, 'ajaxEnable'])->name('ajax_enable');
     Route::get('/ajax-quantily/{id}', [AjaxController::class, 'ajaxQuantily'])->name('ajax_quantily');
+    //Route::get('/send-mail-queue', [SendMailController::class, 'sendMailQueue'])->name('send_mail_queue');
 });
+
