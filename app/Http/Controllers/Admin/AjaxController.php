@@ -25,4 +25,11 @@ class AjaxController extends Controller
         $post->voucher_quantity = $quantity;
         $post->save();
     }
+    public function ajaxStatusEdit($id)
+    {
+        $id = (int)$id;
+        $post = Post::find($id);
+        $post->edit_enable = 1;
+        $post->save();
+    }
 }

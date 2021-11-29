@@ -39,7 +39,11 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = Post::find($id);
+        if (!$post) {
+            return response()->json(['error' => 'Page not found'], 401);
+        }
+        return response()->json(['post' => $post], 200);
     }
 
     /**
@@ -51,7 +55,7 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**

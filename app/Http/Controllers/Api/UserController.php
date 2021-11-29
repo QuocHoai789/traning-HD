@@ -16,9 +16,9 @@ class UserController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6'
         ]);
-        $name = $req->Name;
-        $email = $req->Email;
-        $password = $req->Password;
+        $name = $req->name;
+        $email = $req->email;
+        $password = $req->password;
         $user = User::create([
             'name' => $name,
             'email' => $email,
@@ -33,17 +33,31 @@ class UserController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6'
         ]);
-        $email = $req->Email;
-        $password = $req->Password;
+        $email = $req->email;
+        $password = $req->password;
         $data = [
             'email' => $email,
             'password' => $password
         ];
         if (Auth::attempt($data)) {
-            $token = Auth::user()->createToken('UserLoginPassportAuth')->accessToken;
+            $token = Auth::user()->createToken('UserPassportAuth')->accessToken;
             return response()->json(['token' => $token], 200);
         } else {
             return response()->json(['error' => 'Unauthoriseds'], 401);
         }
+    }
+    public function details(){
+        $user = Auth::user();
+        if(!$user){
+            return response()->json(['error'=>'Unauthoriseds'], 401);
+        }
+        return response()->json(['user'=>$user],200);
+    }
+    public function logout(){
+        if(!Auth::check()){
+            return response()->json(['error' => 'You are not login'], 401);
+        }
+        Auth::logout();
+        return response()->json(['success'=>'You are logout'], 200);
     }
 }

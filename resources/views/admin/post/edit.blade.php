@@ -8,9 +8,9 @@
             <div class="mx-auto col-12">
                 <div class="card">
                     <div class="card-body">
-
-                        <form method="POST" action="{{ route('post.post.edit', ['id' => $post->id]) }}"
-                            enctype="multipart/form-data">
+                        <h1 class="change-message">Thay đổi</h1>
+                        <form method="POST" class="form_edit_post" data-id="{{$post->id}}"
+                            action="{{ route('post.post.edit', ['id' => $post->id]) }}" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label for="formGroupExampleInput">Parent Category</label>
@@ -44,7 +44,7 @@
                                 <label for="formGroupExampleInput">Description Post</label>
                                 <textarea name="description"
                                     class="ckeditor  @error('description') is-invalid @enderror  form-control "
-                                    id="validationTextarea" cols="30" rows="10">{{ $post->description }}</textarea>
+                                    id="descript" cols="30" rows="10">{{ $post->description }}</textarea>
                             </div>
                             @error('description')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -53,7 +53,7 @@
                                 <label for="formGroupExampleInput">Content Post</label>
                                 <textarea name="content"
                                     class="ckeditor  @error('content') is-invalid @enderror  form-control "
-                                    id="validationTextarea" cols="30" rows="10">{{ $post->content }}</textarea>
+                                    id="content" cols="30" rows="10">{{ $post->content }}</textarea>
                             </div>
                             @error('content')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -67,4 +67,37 @@
             </div>
 
         @endsection
-        
+        <script>
+          $(document).ready(function() {
+            var flag = 1;
+              for (var i in CKEDITOR.instances) {
+                  CKEDITOR.instances[i].on('change', function() {
+                      flag = 1;
+                  });
+              }
+              
+              $('.form_edit_post input').on('change input', function() {
+                
+                flag = 1;
+              })
+              var id = $('.form_edit_post').data('id');
+              setInterval(function(){
+                if(flag == 0){
+                 $.ajax({
+                   url : "/admin/update-status-edit/"+id,
+                   type: 'GET',
+
+                 }).done(function(){
+                   
+                   alert('You do nothing in 5 minutes');
+                 })
+                 window.location.href = 'https://laravel.com/docs/8.x';
+                 
+                }else{
+                  flag = 0;
+                }
+                
+              }, 10000);
+
+          })
+      </script>

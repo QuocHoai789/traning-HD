@@ -38,6 +38,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'admin_login'], function (
     //ajax admin-ajax AjaxController
     Route::get('/ajax-enable/{id}', [AjaxController::class, 'ajaxEnable'])->name('ajax_enable');
     Route::get('/ajax-quantily/{id}', [AjaxController::class, 'ajaxQuantily'])->name('ajax_quantily');
+    Route::get('/update-status-edit/{id}', [AjaxController::class, 'ajaxStatusEdit'])->name('ajax_status_post');
     //Route::get('/send-mail-queue', [SendMailController::class, 'sendMailQueue'])->name('send_mail_queue');
 });
 
