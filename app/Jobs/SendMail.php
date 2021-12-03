@@ -38,17 +38,17 @@ class SendMail implements ShouldQueue
     public function handle()
     {
 
-        foreach ($this->userMails as $mail) {
+        // foreach ($this->userMails as $mail) {
 
             try {
-                Mail::to($mail->email)
+                Mail::to($this->userMails->email)
                     ->send(new SendMailInactive($this->data));
-                OutgoingEmail::where('id', $mail->id)
+                OutgoingEmail::where('id', $this->userMails->id)
                     ->update(['status' => 'DONE']);
             } catch (\Exception $e) {
-                OutgoingEmail::where('id', $mail->id)
+                OutgoingEmail::where('id', $this->userMails->id)
                     ->update(['status' => 'ERROR']);
             }
-        }
+        //}
     }
 }

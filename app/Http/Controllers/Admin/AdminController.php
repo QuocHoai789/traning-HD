@@ -41,7 +41,7 @@ class AdminController extends Controller
         if (Gate::allows('is-admin')) {
             return view('admin.site-admin');
         } else {
-            abort('403', 'Bạn không được quyền truy cập');
+            abort('403', 'You are not alow to access');
         }
     }
 }

@@ -5,6 +5,8 @@ namespace App\Console;
 use Aws\Command;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Jobs\CheckTimeOutEdit;
+use App\Models\Event;
 
 class Kernel extends ConsoleKernel
 {
@@ -16,6 +18,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\InactiveUser::class,
         Commands\NotReadPost::class,
+        Commands\CheckTimeEditEvent::class,
     ];
 
     /**
@@ -26,9 +29,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        //$schedule->call('\App\Http\Controllers\Api\EventController@maintain')->everyMinute();
+        // $schedule->job(new CheckTimeOutEdit)
+        //     ->everyMinute();
+        // $schedule->command('event:time')
+        //     ->everyMinute();
         $schedule->command('user:inactive')
-            ->everyMinute();
-        
+            ->daily();
         $schedule->command('post:notread')
             ->daily();
     }

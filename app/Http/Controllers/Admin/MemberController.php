@@ -24,12 +24,11 @@ class MemberController extends Controller
             'subject' => 'Message from demo_app to inactive user.',
             'message' => 'You are not login for oneday. Please login '
         ];
+        $userIds = $userMails->pluck('id');
+        OutgoingEmail::whereIn('id', $userIds)->update(['status' => 'SENDING']);
         $job = new SendMail($data, $userMails);
         dispatch($job)->delay(Carbon::now()->addMinutes(1));
-        foreach ($userMails as $mail) {
-            OutgoingEmail::where('id', $mail->id)
-                ->update(['status' => 'SENDING']);
-        }
+        
         return redirect()->back()->with(["nofitication" => "Done. Send mail to inactive user is successfully!"]);;
     }
 }

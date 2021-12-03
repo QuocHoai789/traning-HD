@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Support\Facades\Auth;
-
-class UserController extends Controller
+class AdminController extends Controller
 {
     public function register(Request $req)
     {
@@ -19,7 +18,7 @@ class UserController extends Controller
         $name = $req->name;
         $email = $req->email;
         $password = $req->password;
-        $user = User::create([
+        $user = Admin::create([
             'name' => $name,
             'email' => $email,
             'password' => bcrypt($password)
@@ -39,25 +38,25 @@ class UserController extends Controller
             'email' => $email,
             'password' => $password
         ];
-        if (Auth::attempt($data)) {
-            $token = Auth::user()->createToken('UserPassportAuth')->accessToken;
+        if (Auth::guard('admin')->attempt($data)) {
+            $token = Auth::guard('admin')->user()->createToken('UserPassportAuth')->accessToken;
             return response()->json(['token' => $token], 200);
         } else {
             return response()->json(['error' => 'Unauthoriseds'], 401);
         }
     }
-    public function details()
-    {
-        $user = Auth::user();
-        if (!$user) {
-            return response()->json(['error' => 'Unauthoriseds'], 401);
+    public function details(){
+        $user = Auth::guard('admin')->user();
+        if(!$user){
+            return response()->json(['error'=>'Unauthoriseds'], 401);
         }
-        return response()->json(['user' => $user], 200);
+        return response()->json(['user'=>$user],200);
     }
-    public function logout()
-    { 
-        $user = Auth::user()->token();
-        $user->revoke();
-        return response()->json(['success' => 'You are logout'], 200);
+    public function logout(){
+        if(!Auth::check()){
+            return response()->json(['error' => 'You are not login'], 401);
+        }
+        Auth::guard('admin')->logout();
+        return response()->json(['success'=>'You are logout'], 200);
     }
 }

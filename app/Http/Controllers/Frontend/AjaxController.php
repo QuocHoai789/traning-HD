@@ -8,15 +8,24 @@ use App\Models\Voucher;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
 use Illuminate\Support\Facades\DB;
+use App\Models\Event;
+use App\Repositories\VoucherRepositoryInterface;
+use App\Repositories\PostRepositoryInterface;
 
 class AjaxController extends Controller
 {
+  protected $voucher, $post;
+  public function __construct(VoucherRepositoryInterface $voucher, PostRepositoryInterface $post)
+  {
+    $this->voucher = $voucher;
+    $this->post = $post;
+  }
   public function createVoucher($id)
   {
     $userId = Auth::user()->id;
     $postId = (int)$id;
-    $voucher = Voucher::where('user_id', $userId)->where('post_id', $postId)->first();
-
+    $voucher =  Voucher::where('user_id', $userId)->where('post_id', $postId)->first();
+    //$voucher = $this->voucher->findVoucherUser($userId, $postId);
     if ($voucher) {
       return 'You were have voucher for this post';
     }
@@ -26,19 +35,16 @@ class AjaxController extends Controller
     try {
       if ($post->voucher_quantity == 0) {
         DB::rollBack();
-        return 'There is no voucher available';
+        return 'There is no voucher available1';
       }
       $code = 'KM' . $id . time();
-      $voucher = new Voucher();
-      $voucher->code = $code;
-      $voucher->post_id = $postId;
-      $voucher->user_id = $userId;
-      $voucher->save();
-
+      $data = ['code' => $code, 'post_id' => $postId, 'user_id' => $userId];
+      $voucher = $this->voucher->create($data);
+      
       $post->decrement('voucher_quantity', 1);
       $post->save();
 
-      if ($post->voucher_quantity < 1) {
+      if ($post->voucher_quantity < 0) {
         DB::rollBack();
         return 'There is no voucher available';
       }
@@ -47,8 +53,14 @@ class AjaxController extends Controller
     } catch (\Exception $e) {
 
       DB::rollBack();
-      return 'There is no voucher available';
-      //throw new \Exception($e->getMessage());
+      return 'There is no voucher available3';
     }
+  }
+  public function releaseEdit($id)
+  {
+    $event = Event::find($id);
+    $event->user_edit = null;
+    $event->time_edit = null;
+    $event->save();
   }
 }

@@ -31,6 +31,7 @@
         <script src=" {{asset('/frontend/js/bootstrap.bundle.min.js')}} "></script>
         <!-- Core theme JS-->
         <script src="{{asset('/frontend/js/scripts.js')}} "></script>
+        @yield('js')
         {{-- <script src="js/treeview.js"></script> --}}
     </body>
 </html>

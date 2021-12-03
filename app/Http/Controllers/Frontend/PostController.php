@@ -2,39 +2,32 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Repositories\PostRepositoryInterface;
+use App\Repositories\UserPostRepositoryInterface;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
-use App\Models\UsePost;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Mail;
-use Carbon\Carbon;
-use App\Models\Admin;
 
 class PostController extends Controller
 {
+    protected $post, $userPost;
+    public function __construct(PostRepositoryInterface  $post, UserPostRepositoryInterface $userPost)
+    {
+        $this->post = $post;
+        $this->userPost = $userPost;
+    }
     public function view($id, Request $request)
     {
 
-
-        $post = Post::find($id);
+        $post = $this->post->find($id);
         if ($post) {
             $user_id = Auth::user()->id;
             $view_post = 'user_view_' . $user_id . $id;
             if (!$request->session()->has($view_post)) {
 
-                //tăng lượt view
                 session([$view_post => '1']);
-                $post->increment('view');
-                $post->last_view = Carbon::now();
-                $post->save();
-
-                //theo dõi user đã đọc
-                $userpost = new UsePost();
-                $userpost->post_id = $id;
-                $userpost->user_id = $user_id;
-                $userpost->save();
+                $this->post->updateView($id);
+                $this->userPost->create(['post_id' => $id, 'user_id' => $user_id]);
             }
             return view('frontend.post.detail', compact('post'));
         } else {

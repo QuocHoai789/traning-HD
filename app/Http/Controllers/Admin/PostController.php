@@ -11,9 +11,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\PostRequest;
 use Illuminate\Support\Facades\Storage;
+use App\Repositories\PostRepositoryInterface;
 
 class PostController extends Controller
 {
+    protected $post;
+    public function __construct(PostRepositoryInterface $post)
+    {
+        $this->post = $post;
+    }
     public function addPost()
     {
         $categories = Category::get();
@@ -21,6 +27,7 @@ class PostController extends Controller
     }
     public function addNewPost(PostRequest $request)
     {
+        $data = [];
         $parent = [];
         $parent = $request->parent;
         $title = $request->title_post;
@@ -32,18 +39,16 @@ class PostController extends Controller
         $new_name_file = $filename . '_' . time() . '.' . $extension;
         $content = $request->content;
         $author = Auth::guard('admin')->user()->id;
-        $post = new Post;
-        $post->title = $title;
-        $post->description = $description;
-        $post->content = $content;
-        $post->author_id = $author;
-
+        $data['title'] = $title;
+        $data['description'] = $description;
+        $data['content'] = $content;
+        $data['author_id'] = $author;
         $path = $file->storeAs('posts', $new_name_file);
         if ($path) {
-            $post->images = $new_name_file;
+            $data['images'] = $new_name_file;
         }
-
-        if ($post->save()) {
+        $post = $this->post->create($data);
+        if ($post) {
             $post->category()->attach($parent);
             return redirect()->back();
         }
@@ -59,10 +64,9 @@ class PostController extends Controller
     public function editPost($id)
     {
         $categories = Category::get();
-        $post = Post::find($id);
-
-        $post->edit_enable = 0;
-        $post->save();
+        $post = $this->post->find($id);
+        $data = ['edit_enable' => 0];
+        $this->post->update($id, $data);
         $category = [];
         foreach ($post->category as $po) {
             $category[] = $po->pivot->category_id;
@@ -73,6 +77,7 @@ class PostController extends Controller
     public function postEditPost(PostRequest $request, $id)
     {
         //dd($request->all());
+        $data = [];
         $parent = [];
         $parent = $request->parent;
         $title = $request->title_post;
@@ -80,7 +85,7 @@ class PostController extends Controller
         $content = $request->content;
         $author = Auth::guard('admin')->user()->id;
 
-        $post = Post::find($id);
+        $post = $this->post->find($id);
         if ($request->file('image')) {
             $file = $request->file('image');
             $nameFile = $file->getClientOriginalName();

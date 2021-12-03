@@ -73,16 +73,13 @@
                                         </td>
                                         <td>{{ $post->author->name }}</td>
                                         <td>
-                                            {{-- @if (Auth::guard('admin')->user()->can('update', $post))
+                                            @if (Auth::guard('admin')->user()->can('update', $post))
                                 <a type="button" href="{{route('post.edit', ['id'=> $post->id])}}" class="btn btn-primary" >Edit</a>
                                @endif
                                @if (Auth::guard('admin')->user()->can('delete', $post))
                                 <a type="button" class="btn btn-danger">Delete</a>
-                                @endif --}}
-                                            <a type="button" href="{{ route('post.edit', ['id' => $post->id]) }}"
-                                                data-id="{{ $post->id }}"
-                                                class="edit_post btn btn-primary @if ($post->edit_enable == 0) disabled @endif">Edit</a>
-                                            <a type="button" class="btn btn-danger">Delete</a>
+                                @endif
+                                            
                                         </td>
                                     </tr>
                                 @endforeach

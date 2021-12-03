@@ -5,10 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Voucher extends Model
+class Event extends Model
 {
     use HasFactory;
-
-    protected $table = 'vouchers';
-    protected $fillable = ['code', 'user_id', 'post_id'];
+    protected $table = 'events';
+    protected $fillable = ['name','content','user_edit','time_edit'];
 }

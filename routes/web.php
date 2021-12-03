@@ -7,6 +7,7 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\CategoryController;
 use App\Http\Controllers\Frontend\PostController;
 use App\Http\Controllers\Frontend\AjaxController;
+use App\Http\Controllers\Frontend\EventController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,6 +27,11 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::get('/category/{id}', [CategoryController::class, 'show'])->name('category.show');
     Route::get('/post/{id}', [PostController::class, 'view'])->name('post.view')->middleware('viewpost');
     Route::get('/ajax-create-voucher/{id}', [AjaxController::class, 'createVoucher'])->name('voucher.create');
+    Route::get('/update-status-edit/{id}', [AjaxController::class, 'releaseEdit'])->name('event.release');
+
+    Route::get('/event', [EventController::class, 'listEvent'])->name('event.list');
+    Route::get('/event/{id}', [EventController::class, 'editEvent'])->name('event.edit')->middleware('auth');
+    Route::post('/event/{id}', [EventController::class, 'saveEvent'])->name('event.save')->middleware('auth');
 });
 
 

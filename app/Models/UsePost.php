@@ -9,4 +9,5 @@ class UsePost extends Model
 {
     use HasFactory;
     protected $table = 'user_post';
+    protected $fillable = ['user_id','post_id'];
 }

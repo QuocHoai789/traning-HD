@@ -67,37 +67,4 @@
             </div>
 
         @endsection
-        <script>
-          $(document).ready(function() {
-            var flag = 1;
-              for (var i in CKEDITOR.instances) {
-                  CKEDITOR.instances[i].on('change', function() {
-                      flag = 1;
-                  });
-              }
-              
-              $('.form_edit_post input').on('change input', function() {
-                
-                flag = 1;
-              })
-              var id = $('.form_edit_post').data('id');
-              setInterval(function(){
-                if(flag == 0){
-                 $.ajax({
-                   url : "/admin/update-status-edit/"+id,
-                   type: 'GET',
-
-                 }).done(function(){
-                   
-                   alert('You do nothing in 5 minutes');
-                 })
-                 window.location.href = 'https://laravel.com/docs/8.x';
-                 
-                }else{
-                  flag = 0;
-                }
-                
-              }, 10000);
-
-          })
-      </script>
+       
