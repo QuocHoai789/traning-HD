@@ -29,30 +29,23 @@
     </div>
 @endsection
 @section('js')
-    {{-- <script>
+    <script>
         $(document).ready(function() {
             $(window).bind("beforeunload", function() {
                 var id = $('.form_edit_event').data('id');
-               // return confirm("Do you really want to close?");
                 $.ajax({
-                        url: "/update-status-edit/" + id,
-                        type: 'GET',
+                    url: "/update-status-edit/" + id,
+                    type: 'GET',
 
-                    }).done(function() {
-                        //alert('You do nothing in 5 minutes');
-                    })
+                }).done(function() {
+                    //alert('You do nothing in 5 minutes');
+                })
             })
         })
     </script>
     <script>
         $(document).ready(function() {
-            // alert('rưer');
-            var flag = 1;
-            // for (var i in CKEDITOR.instances) {
-            //     CKEDITOR.instances[i].on('change', function() {
-            //         flag = 1;
-            //     });
-            // }
+
 
             $('.form_edit_event input').on('change input', function() {
 
@@ -80,8 +73,8 @@
                     flag = 0;
                 }
 
-            }, 100000);
+            }, 500000);
 
         })
-    </script> --}}
+    </script>
 @endsection
