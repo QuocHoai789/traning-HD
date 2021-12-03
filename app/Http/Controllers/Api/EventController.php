@@ -15,7 +15,6 @@ class EventController extends Controller
     public function editable($id)
     {
         $userId = Auth::user()->id;
-        $timeLimit = Carbon::now()->subMinutes(5);
         DB::beginTransaction();
         $event = Event::lockForUpdate()->findOrFail($id);
         try {
