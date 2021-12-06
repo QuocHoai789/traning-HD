@@ -34,21 +34,45 @@ class EventController extends Controller
     }
     public function release($id)
     {
-        $event = Event::findOrFail($id);
-        $event->user_edit = null;
-        $event->time_edit = null;
-        $event->save();
-        return response()->json(['event', $event], 200);
+
+        $userId = Auth::user()->id;
+        DB::beginTransaction();
+        $event = Event::lockForUpdate()->findOrFail($id);
+        try {
+
+            if ($event->user_edit != NULL && $event->user_edit == $userId) {
+                $event->user_edit = NULL;
+                $event->time_edit = NULL;
+                $event->save();
+                DB::commit();
+                return response()->json(['event', $event], 200);
+            } else {
+                DB::rollBack();
+                return response()->json(['error' => 'Cannot release'], 400);
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'Cannot release'], 400);
+        }
     }
     public function maintain($id)
     {
         $userId = Auth::user()->id;
-        $event = Event::findOrFail($id);
-        if ($event->user_edit != NULL && $event->user_edit == $userId) {
-            $event->time_edit = Carbon::now();
-            $event->save();
-            return response()->json(['event' => $event], 200);
+        DB::beginTransaction();
+        $event = Event::lockForUpdate()->findOrFail($id);
+        try {
+            if ($event->user_edit != NULL && $event->user_edit == $userId) {
+                $event->time_edit = Carbon::now();
+                $event->save();
+                DB::commit();
+                return response()->json(['event' => $event], 200);
+            } else {
+                DB::rollBack();
+                return response()->json(['error' => 'Cannot maintain'], 400);
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'Cannot maintain'], 400);
         }
-        return response()->json(['error' => 'Not maintain'], 400);
     }
 }

@@ -32,8 +32,8 @@ class Kernel extends ConsoleKernel
         //$schedule->call('\App\Http\Controllers\Api\EventController@maintain')->everyMinute();
         // $schedule->job(new CheckTimeOutEdit)
         //     ->everyMinute();
-        // $schedule->command('event:time')
-        //     ->everyMinute();
+        $schedule->command('event:time')
+            ->everyMinute();
         $schedule->command('user:inactive')
             ->daily();
         $schedule->command('post:notread')

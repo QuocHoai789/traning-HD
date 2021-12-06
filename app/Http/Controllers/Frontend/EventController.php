@@ -26,7 +26,7 @@ class EventController extends Controller
         try {
             if ($event->user_edit != null  && $event->user_edit != $userId ) {
                 DB::rollBack();
-                return redirect()->back();
+                return redirect()->back()->with('notification','Cant to access this post');
             }
             $event->user_edit = $userId;
             $event->time_edit = Carbon::now();
@@ -35,7 +35,7 @@ class EventController extends Controller
             return view('frontend.event.edit', compact('event'));
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back();
+            return redirect()->back()->with('notification','Cant to access this post');
         }
     }
     public function saveEvent(Request $req, $id)

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Event;
 use App\Repositories\VoucherRepositoryInterface;
 use App\Repositories\PostRepositoryInterface;
+use Carbon\Carbon;
 
 class AjaxController extends Controller
 {
@@ -56,11 +57,11 @@ class AjaxController extends Controller
       return 'There is no voucher available3';
     }
   }
-  public function releaseEdit($id)
+  public function maintainEdit($id)
   {
+    $timeEdit = Carbon::now();
     $event = Event::find($id);
-    $event->user_edit = null;
-    $event->time_edit = null;
+    $event->time_edit = $timeEdit;
     $event->save();
   }
 }

@@ -27,7 +27,7 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::get('/category/{id}', [CategoryController::class, 'show'])->name('category.show');
     Route::get('/post/{id}', [PostController::class, 'view'])->name('post.view')->middleware('viewpost');
     Route::get('/ajax-create-voucher/{id}', [AjaxController::class, 'createVoucher'])->name('voucher.create');
-    Route::get('/update-status-edit/{id}', [AjaxController::class, 'releaseEdit'])->name('event.release');
+    Route::get('/maintain/{id}', [AjaxController::class, 'maintainEdit'])->name('event.maintain');
 
     Route::get('/event', [EventController::class, 'listEvent'])->name('event.list');
     Route::get('/event/{id}', [EventController::class, 'editEvent'])->name('event.edit')->middleware('auth');

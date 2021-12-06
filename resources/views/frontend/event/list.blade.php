@@ -17,7 +17,7 @@
                             <th scope="row">1</th>
                             <td>{{ $event->name }}</td>
                             <td>
-                                <a href="{{route('event.edit',['id'=>$event->id])}}" class="btn btn-primary">Edit</a>
+                                <a href="{{ route('event.edit', ['id' => $event->id]) }}" class="btn btn-primary @if($event->user_edit !=null && $event->user_edit != Auth::user()->id) disabled @endif">Edit</a>
                             </td>
                         </tr>
                     @endforeach
@@ -26,3 +26,8 @@
         </div>
     </div>
 @endsection
+
+
+    
+
+

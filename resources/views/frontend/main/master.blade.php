@@ -32,6 +32,7 @@
         <!-- Core theme JS-->
         <script src="{{asset('/frontend/js/scripts.js')}} "></script>
         @yield('js')
+        @yield('notification')
         {{-- <script src="js/treeview.js"></script> --}}
     </body>
 </html>

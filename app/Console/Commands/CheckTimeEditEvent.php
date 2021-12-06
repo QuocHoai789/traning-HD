@@ -41,7 +41,10 @@ class CheckTimeEditEvent extends Command
     {
         //return Command::SUCCESS;
         $timeLimit = Carbon::now()->subMinutes(2);
-        $eventIsEditings = Event::whereNotNull('time_edit')->where('time_edit', '<', $timeLimit)->pluck('id');
-        Event::whereIn('id', $eventIsEditings)->update(['user_edit' => null, 'time_edit' => null]);
+        $eventIsEditings = Event::whereNotNull('time_edit')
+            ->where('time_edit', '<', $timeLimit)
+            ->pluck('id');
+        Event::whereIn('id', $eventIsEditings)
+            ->update(['user_edit' => null, 'time_edit' => null]);
     }
 }

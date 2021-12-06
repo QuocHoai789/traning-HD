@@ -45,35 +45,48 @@
     </script>
     <script>
         $(document).ready(function() {
-
-
+            var id = $('.form_edit_event').data('id');
+            //var flag = 0;
             $('.form_edit_event input').on('change input', function() {
 
-                flag = 1;
+                //flag = 1;
+                $.ajax({
+                        url: "/maintain/" + id,
+                        type: 'GET',
+
+                    }).done(function() {
+                        
+                    })
 
             })
             $('.form_edit_event textarea').on('keyup textarea', function() {
 
-                flag = 1;
-            })
-            var id = $('.form_edit_event').data('id');
-            setInterval(function() {
-                if (flag == 0) {
-                    $.ajax({
-                        url: "/update-status-edit/" + id,
+                //flag = 1;
+                $.ajax({
+                        url: "/maintain/" + id,
                         type: 'GET',
 
                     }).done(function() {
-
-                        alert('You do nothing in 5 minutes');
+                        
                     })
-                    window.location.href = "{{ route('event.list') }}";
+            })
+            // var id = $('.form_edit_event').data('id');
+            // setInterval(function() {
+            //     if (flag == 1) {
+            //         $.ajax({
+            //             url: "/maintain/" + id,
+            //             type: 'GET',
 
-                } else {
-                    flag = 0;
-                }
+            //         }).done(function() {
+                        
+            //         })
+            //         flag = 0;
 
-            }, 500000);
+            //     } else {
+            //         window.location.href = "{{ route('event.list') }}";
+            //     }
+
+            // }, 20000);
 
         })
     </script>
